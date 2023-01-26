@@ -31,37 +31,37 @@ class ExpandableCollection(wx.Panel):
         self.vbox.Add(panel, 0, wx.ALL ^ wx.TOP | wx.EXPAND, 3)
 
     def init_panels_layout(self):
-        values = self.expandable_panels.values()
+        values = list(self.expandable_panels.values())
         if len(values) > 0:
             self._expand_callback(values[0])
 
     def _expand_callback(self, selected_panel):
         if sys.is_windows():
             selected_panel.show_content()
-            for panel in self.expandable_panels.values():
+            for panel in list(self.expandable_panels.values()):
                 if panel is not selected_panel:
                     panel.hide_content()
         else:
-            for panel in self.expandable_panels.values():
+            for panel in list(self.expandable_panels.values()):
                 if panel is not selected_panel:
                     panel.hide_content()
             selected_panel.show_content()
 
     # Engine callbacks
     def update_callbacks(self):
-        for panel in self.expandable_panels.values():
+        for panel in list(self.expandable_panels.values()):
             panel.content.update_callbacks()
 
     def enable_content(self):
-        for panel in self.expandable_panels.values():
+        for panel in list(self.expandable_panels.values()):
             panel.content.Enable()
 
     def disable_content(self):
-        for panel in self.expandable_panels.values():
+        for panel in list(self.expandable_panels.values()):
             panel.content.Disable()
 
     def update_from_profile(self):
-        for panel in self.expandable_panels.values():
+        for panel in list(self.expandable_panels.values()):
             panel.enable_restore(True)
             panel.content.update_from_profile()
 
@@ -278,7 +278,7 @@ class ControlCollection(wx.Panel):
         self.control_panels[_name].set_engine_callback(_callback)
 
     def reset_profile(self):
-        for control in self.control_panels.values():
+        for control in list(self.control_panels.values()):
             control.reset_profile()
 
     def enable(self, _name):
@@ -288,7 +288,7 @@ class ControlCollection(wx.Panel):
         self.items[_name].Disable()
 
     def update_from_profile(self):
-        for control in self.control_panels.values():
+        for control in list(self.control_panels.values()):
             control.update_from_profile()
 
     def show_item(self, _name):
@@ -425,7 +425,7 @@ class ComboBox(ControlPanel):
         choices = self.setting._possible_values
         _choices = [_(i) for i in choices]
 
-        self.key_dict = dict(zip(_choices, choices))
+        self.key_dict = dict(list(zip(_choices, choices)))
 
         # Elements
         label = wx.StaticText(self, label=_(self.setting._label), size=(130, -1))
